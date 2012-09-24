@@ -7,11 +7,11 @@ Input_Reading.o: Input_Reading.h Input_Reading.cpp
 PSAT.o: Integer_PSAT.h PSAT.h PSAT.cpp
 	g++ PSAT.cpp -c
 Integer_PSAT.o: ClauseGen.h Solver.h Integer_PSAT.h Integer_PSAT.cpp
-	g++ Integer_PSAT.cpp -c
+	g++ Integer_PSAT.cpp -c -D __STDC_LIMIT_MACROS -D __STDC_FORMAT_MACROS
 ClauseGen.o: Solver.h SolverTypes.h ClauseGen.h ClauseGen.cpp
-	g++ ClauseGen.cpp -c
+	g++ ClauseGen.cpp -c -D __STDC_LIMIT_MACROS -D __STDC_FORMAT_MACROS
 Solver.o: Sort.h  Solver.h Solver.cc
-	g++ Solver.cc -c
+	g++ Solver.cc -c -D __STDC_LIMIT_MACROS -D __STDC_FORMAT_MACROS
 
 clean:
 	rm -f main.o Input_Reading.o PSAT.o Integer_PSAT.o ClauseGen.o Solver.o
