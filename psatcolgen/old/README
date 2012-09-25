@@ -1,0 +1,81 @@
+-------------
+PsatColGen 1.1
+------------
+
+PsatColGen decides the Probabilistic Satisfiability problem (PSAT)
+through a turing reduction to the Satisfiability test (SAT).
+Given a PSAT instance in normal form as input, the program returns
+with a solution, if there is one. The implemented method is an
+adaptation from the Simplex Algorithm with Column Generation.
+At each iteration, a SAT instance is generated and a SAT Solver
+(zChaff) decides its satisfiability. Details about PSAT, its normal 
+form and this turing reduction can be found in the paper
+"PSAT.pdf" (Sections 2 and 4) that comes with this package.
+
+Copying conditions about PsatColGen can be found in the 'COPYING' file.
+
+To contact the author: marcelo.finger@gmail.com
+
+---------------
+Installation
+---------------
+
+You must have in your computer the compilers gcc, g++ and the LAPACK and
+BLAS libraries.  Currently, in the Ubuntu distribution those libraries
+come in the package "liblapack-dev" and its dependencies; the
+documentation packages are: liblapack-doc, libblas-doc.  However,
+these software libraries are freely-available, with their own copying
+conditions.  Information about how to download and install these
+libraries under linux can be found at
+"http://seehuhn.de/pages/linear#installation".
+
+To compile the PsatColGen, all you have to do is type, at the
+directory where all source files have been placed, 
+
+$ make
+
+To run PsatColGen, you also need to install "zChaff", a free software that
+can be downloaded at "http://www.princeton.edu/~chaff/zchaff.html". The 
+"zchaff" executable file must be in PSATtoMaxSat directory.  Note that zChaff
+has its own copying conditions. Future versions of this software will
+probably provide a different sat solver.
+
+---------------
+Using PsatColGen
+---------------
+
+To use PsatColGen from its folder under linux, just type:
+
+$ ./PsatColGen <FILENAME>
+
+The <FILENAME> must describe a PSAT instance in the atomic
+normal form, which is defined in Section 2 of the paper "PSAT.pdf".
+The input format is an adaptation from DIMACS format, to include
+a probability assignment. For example:
+
+c This is a comment
+p pcnf 3 4 2 2
+a 1 0.54
+a 2 0.46
+1 2 0
+-1 3 0
+1 2 -3 0
+1 -2 3 0
+
+ - The file can start with comments, that is lines beginning
+with the character 'c'. Right after the comments, there is the
+line "p pcnf nvar nclauses nprobabilities nbits" indicating that 
+the instance is in PCNF format; nbvar is the number of a variables
+appearing in the file; nbclauses is the exact number of clauses
+contained in the file; nprobabilities is the number of atoms with
+an assigned probability; and ndec is the number of decimal 
+used to specify the assigned probabilities.
+ - Then the probability assignment is specified. Each assigned 
+probability is in one line starting with the character 'a'. Then 
+an integer between 1 and nprobabilities indicates which variable the 
+probability is assigned to. Finally, a number in the interval [0,1]
+represents the probabilty to be assigned.
+ - Then the clauses follow. Each clause is a sequence of distinct
+non-null numbers between -nbvar and nbvar ending with 0 on the same
+line. Positive numbers denote the corresponding variables. Negative
+numbers denote the negations of the corresponding variables.
