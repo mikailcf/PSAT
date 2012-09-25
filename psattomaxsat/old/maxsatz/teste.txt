@@ -1,0 +1,8 @@
+c
+c comments Weigthed Partial Max-SAT
+c
+p wcnf 2 4 100
+100 1 0
+15 -1 0
+15 -1 0
+10 2 0
