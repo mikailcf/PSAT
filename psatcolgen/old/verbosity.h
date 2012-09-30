@@ -1,2 +1,2 @@
-#define VERB 0
+#define VERB 1
 //#define printVerb if(VERB) printf
