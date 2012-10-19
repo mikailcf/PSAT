@@ -20,11 +20,14 @@
 
 /*This class represents the PSAT instance itself, and decides its satisfiability.*/
 
+#include <iostream>
 #include<stdlib.h>
 #include<math.h>
 #include "PSAT.h"
 #include "verbosity.h"
 #include "Solver.h"
+
+using namespace std;
 
 PSAT::PSAT(int nV, int nPr, int nCl, double * prob, int prec, FILE * gam){
   int i/*,j*/;
@@ -111,7 +114,16 @@ int SATSolve(Solver* solver, int gamma){
     
     vec<Lit> dummy;
     lbool ret = solver->solveLimited(dummy);
-    printf(ret == l_True ? "SATISFIABLE\n" : ret == l_False ? "UNSATISFIABLE\n" : "INDETERMINATE\n");
+
+    if(ret == l_True){
+        printf("SATISFIABLE\n");
+    }
+    else if(ret == l_False){
+        printf("UNSATISFIABLE\n");
+    }
+    else{
+        printf("INDETERMINABLE\n");
+    }
     
     if(ret != l_True) return 0;
     
@@ -315,7 +327,9 @@ void PSAT::solve(){
               printf("\nUnsatisfiable PSAT instance. Total number of iterations:   %7d \n",it);
             else
               printf("UNSAT");
-                
+        
+            cerr << "UNSAT" << endl;
+            
             return ;
         }
         if(VERB) printf("\nNew column found.\n");
@@ -376,4 +390,5 @@ void PSAT::solve(){
     else
       printf("SAT");
 
+    cerr << "SAT" << endl;
 }

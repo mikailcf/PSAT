@@ -22,13 +22,14 @@
 So, woking with k bits, all the assigned probabilities were rescaled from the real interval [0,1] to the integer interval [0,maxProb] and our solution will also be in the same range. To recover the original solution from the integer one,
 we just need to divide the latter by 2^k-1. */
 
-
+#include <iostream>
 #include<stdio.h>
 #include<stdlib.h>
 #include<math.h>
 #include"Integer_PSAT.h"
 #include"ClauseGen.h"
 
+using namespace std;
 
 //this function converts a long 'p' to its binary representation with k bits, 
 //returning the vector bin
@@ -99,6 +100,7 @@ void readOutput(int nProb, int nVar, int prec, long * p){
 	rewind(output);
 	if(sat==0){
 		printf("\nInstance Unsatisfiable\n");
+        cerr << "UNSAT" <<endl;
 		return ;
 	}
 	while ((lido[0]!='l' || lido[1]!='e')){
@@ -123,6 +125,7 @@ void readOutput(int nProb, int nVar, int prec, long * p){
 		y[j]=y[j]/den;
 	}
 	printf("\nInstance Satisfiable\n");
+    cerr << "SAT" <<endl;
 	printf("Matrix founded (bottom row forces the probabilities to sum up to 1):\n");	
 	for(i=0;i<=nProb;i++){
 		for(j=0;j<=nProb;j++)printf("%8d ",matrix[(nProb+1)*i+j]);

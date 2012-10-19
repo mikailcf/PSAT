@@ -22,13 +22,15 @@
 So, woking with k bits, all the assigned probabilities were rescaled from the real interval [0,1] to the integer interval [0,maxProb] and our solution will also be in the same range. To recover the original solution from the integer one,
 we just need to divide the latter by 2^k-1. */
 
-
+#include <iostream>
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
 #include "Integer_PSAT.h"
 #include "ClauseGen.h"
 #include "Solver.h"
+
+using namespace std;
 
 //this function converts a long 'p' to its binary representation with k bits, 
 //returning the vector bin
@@ -69,12 +71,26 @@ Integer_PSAT::Integer_PSAT(int nV, int nPr, int nCl, long* piN, int kb, FILE* ga
 int SATSolve(Solver* solver, int gamma){
     if (!solver->simplify()){
         printf("UNSATISFIABLE\n");
+        cerr << "UNSAT" << endl;
         return 1;
     }
     
     vec<Lit> dummy;
     lbool ret = solver->solveLimited(dummy);
-    printf(ret == l_True ? "SATISFIABLE\n" : ret == l_False ? "UNSATISFIABLE\n" : "INDETERMINATE\n");
+
+    if(ret == l_True){
+        printf("SATISFIABLE\n");
+        cerr << "SAT" << endl;
+    }
+    else if(ret == l_False){
+        printf("UNSATISFIABLE\n");
+        cerr << "UNSAT" << endl;
+    }
+    else{
+        printf("INDETERMINABLE\n");
+        cerr << "UNSAT" << endl;
+    }
+    // printf( ? "SATISFIABLE\n" : ret == l_False ? "UNSATISFIABLE\n" : "INDETERMINATE\n");
     
     if(ret != l_True) return 1;
     

@@ -20,10 +20,13 @@
 
 /*This class represents the PSAT instance itself, and decides its satisfiability.*/
 
+#include <iostream>
 #include<stdlib.h>
 #include<math.h>
 #include "PSAT.h"
 #include "verbosity.h"
+
+using namespace std;
 
 PSAT::PSAT(int nV, int nPr, int nCl, double * prob, int prec, FILE * gam){
   int i/*,j*/;	
@@ -287,10 +290,12 @@ void PSAT::solve(){
 		getColumn(columnSimplex, nProb+1);
 		if(columnSimplex[0]<0){
 			if(VERB) printf("Basis cost: %lf\n",cost);
-			if(VERB) 
-              printf("\nUnsatisfiable PSAT instance. Total number of iterations:   %7d \n",it);
+			if(VERB)
+				printf("\nUnsatisfiable PSAT instance. Total number of iterations:   %7d \n",it);
             else
-              printf("UNSAT");
+                printf("UNSAT");
+
+            cerr << "UNSAT" << endl;
 				
 			return ;
 		}
@@ -347,4 +352,5 @@ void PSAT::solve(){
     else
       printf("SAT");
 
+  	cerr << "SAT" << endl;
 }
