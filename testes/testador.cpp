@@ -114,8 +114,11 @@ int main(){
                     else n_sat--;       
                 }
                 else{
-                    time_sat += getTime(time_file);
-                    time_file.close();
+                    if(check == 1 || check == 0){
+                        time_sat += getTime(time_file);
+                        time_file.close();
+                    }
+                    else n_sat--;
                 }
 
                 if(check == 1) printf("sat\n");
