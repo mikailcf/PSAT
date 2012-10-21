@@ -1,10 +1,10 @@
-#include<stdarg.h>
-#include<stdio.h>
-#include<stdlib.h>
-#include<string.h>
-#include<math.h>
-#include<iostream>
-#include"PSAT.h"
+#include <stdarg.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <math.h>
+#include <iostream>
+#include "PSAT.h"
 
 #include <iostream>
 
@@ -231,6 +231,7 @@ basicSolution, int* notinGamma, int out){
 }
 
 void PSAT::solve(){
+	FILE *fout = fopen("sat", "w");
 	int i,j,count, *notinGamma, *newColumn, sat, nig=0, it=0, *signal;
 	long /* temp,*/ top/*, indterm*/, value;
 	double *basicSolution, cost=0, epsilon;
@@ -343,7 +344,8 @@ void PSAT::solve(){
 			printf("cost: %.15lf, epsilon:%.15lf\n",cost,epsilon);
 			printf("\nUnsatisfiable PSAT instance. Total number of iterations:   %7d \n",it);
 			fclose(saida);
-            cerr << "UNSAT" << endl;
+            // cerr << "UNSAT" << endl;
+            fprintf(sat, "UNSAT\n");
 			return ;
 		}
 		status = fopen("status.txt","w");
@@ -364,7 +366,9 @@ void PSAT::solve(){
 	printf("******\n");
 	printf("Total number of iterations:   %7d\n", it);
 	fclose(saida);	
-    cerr << "SAT" << endl;
+
+    // cerr << "SAT" << endl;
+    fprintf(sat, "SAT\n");
 /*	printf("Assigned probabilities: ");
 	for(i=0;i<=nProb;i++)printf("%lf ",probabilities[i]);
 	printf("\nbasic solution: ");

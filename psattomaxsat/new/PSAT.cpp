@@ -1,10 +1,10 @@
-#include<stdarg.h>
-#include<stdio.h>
-#include<stdlib.h>
-#include<string.h>
-#include<math.h>
-#include<iostream>
-#include"PSAT.h"
+#include <stdarg.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <math.h>
+#include <iostream>
+#include "PSAT.h"
 #include "Solver.h"
 
 extern "C" {
@@ -271,6 +271,7 @@ basicSolution, int* notinGamma, int out){
 }
 
 void PSAT::solve(){
+    FILE *fout = fopen("sat", "w");
     int *maxsat_solution, *maxsat_sat;
     long long int *maxsat_opt_solution;
     maxsat_solution = (int *) malloc((nProb+1)*sizeof(int));
@@ -289,7 +290,7 @@ void PSAT::solve(){
     for(i=0;i<nProb;i++)inequalities[i] = new Inequality(nProb+1);
     // out = fopen("origMatrix.txt","w");
     // if( !out ) {
-    //   cerr << "*** origMatrix.txt could not be open for writing\n"
+    //    << "*** origMatrix.txt could not be open for writing\n"
     //        << "Terminating" << endl;
     //   exit(2);
     // }
@@ -395,7 +396,8 @@ void PSAT::solve(){
             printf("cost: %.15lf, epsilon:%.15lf\n",cost,epsilon);
             printf("\nUnsatisfiable PSAT instance. Total number of iterations:   %7d \n",it);
             fclose(saida);
-            cerr << "UNSAT" << endl;
+            // cerr << "UNSAT" << endl;
+            fprintf(sat, "UNSAT\n");
             return ;
         }
         // status = fopen("status.txt","w");
@@ -416,7 +418,10 @@ void PSAT::solve(){
     printf("******\n");
     printf("Total number of iterations:   %7d\n", it);
     // fclose(saida);  
-    cerr << "SAT" << endl;
+
+    // cerr << "SAT" << endl;
+    fprintf(sat, "SAT\n");
+
 /*  printf("Assigned probabilities: ");
     for(i=0;i<=nProb;i++)printf("%lf ",probabilities[i]);
     printf("\nbasic solution: ");
