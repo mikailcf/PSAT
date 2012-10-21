@@ -29,11 +29,12 @@ int sat(){
     c = getc(sat);
     fclose(sat);
     if(c == 'S') return 1;
-    else return 0;
+    if(c == 'U') return 0;
+    else return -1;
 }
 
 int main(){
-    int n_min, n_max, n_sat, n_unsat, n_solver, sat_only, k = 0;
+    int n_min, n_max, n_sat, n_unsat, n_solver, sat_only, k = 0, check;
     int **sat_res;
     char *in = new char[50];
     char *cmd = new char[100];
@@ -62,12 +63,12 @@ int main(){
     cin >> n_solver;
 
     if(sat_only){
-        sat_res = (int**) malloc((n_max - n_min)*(sizeof(int*)));
+        sat_res = (int**) malloc((n_max - n_min + 1)*(sizeof(int*)));
 
-        for(int i = 0; i < n_max - n_min; i++){
+        for(int i = 0; i < n_max - n_min + 1; i++){
             sat_res[i] = (int*) malloc(n_sat*(sizeof(int)));
 
-            for(int j = 0; j < n_max - n_min; j++)
+            for(int j = 0; j < n_sat; j++)
                 sat_res[i][j] = 0;
         }
     }
@@ -90,11 +91,12 @@ int main(){
                 sprintf(cmd, "(time -p ./%s %s > /dev/null 2> sat) 2> time.out", solver_name, in);
                 // (/usr/bin/time -p ./PSATtoMaxSat instances/SATISn25_1.pcnf > /dev/null 2> sat) > time.out
                 
+                printf("%d %d ", i, j+1);
                 system(cmd);
 
+                check = sat();
                 if(sat_only){
-                    if(sat()){
-                        printf("%d %d\n", i, j);
+                    if(check == 1){
                         if(k == 0){
                             sat_res[i - n_min][j] = 1;
 
@@ -114,6 +116,9 @@ int main(){
                     time_file.close();
                 }
 
+                if(check == 1) printf("sat\n");
+                else if(check == 0) printf("unsat\n");
+                else printf("error\n");
             }
             if(n_sat != 0) time_sat /= n_sat;
 
