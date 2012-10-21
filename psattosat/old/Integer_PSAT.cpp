@@ -84,6 +84,7 @@ Integer_PSAT::~Integer_PSAT() {
 
 //This function reads the output from the sat solver, and recover the matrix A e probability distribution y;
 void readOutput(int nProb, int nVar, int prec, long * p){
+    FILE *fout = fopen("sat", "w");
 	FILE *output;
 	int sat,j, i,lit, *matrix;
 	long den;
@@ -100,7 +101,8 @@ void readOutput(int nProb, int nVar, int prec, long * p){
 	rewind(output);
 	if(sat==0){
 		printf("\nInstance Unsatisfiable\n");
-        cerr << "UNSAT" <<endl;
+        // cerr << "UNSAT" <<endl;
+        fprintf(fout, "UNSAT\n");
 		return ;
 	}
 	while ((lido[0]!='l' || lido[1]!='e')){
@@ -125,7 +127,8 @@ void readOutput(int nProb, int nVar, int prec, long * p){
 		y[j]=y[j]/den;
 	}
 	printf("\nInstance Satisfiable\n");
-    cerr << "SAT" <<endl;
+    // cerr << "SAT" <<endl;
+    fprintf(fout, "SAT\n");
 	printf("Matrix founded (bottom row forces the probabilities to sum up to 1):\n");	
 	for(i=0;i<=nProb;i++){
 		for(j=0;j<=nProb;j++)printf("%8d ",matrix[(nProb+1)*i+j]);

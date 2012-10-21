@@ -69,9 +69,11 @@ Integer_PSAT::Integer_PSAT(int nV, int nPr, int nCl, long* piN, int kb, FILE* ga
 }
 
 int SATSolve(Solver* solver, int gamma){
+    FILE *fout = fopen("sat", "w");
     if (!solver->simplify()){
         printf("UNSATISFIABLE\n");
-        cerr << "UNSAT" << endl;
+        // cerr << "UNSAT" << endl;
+        fprintf(fout, "UNSAT\n");
         return 1;
     }
     
@@ -80,15 +82,18 @@ int SATSolve(Solver* solver, int gamma){
 
     if(ret == l_True){
         printf("SATISFIABLE\n");
-        cerr << "SAT" << endl;
+        // cerr << "SAT" << endl;
+        fprintf(fout, "SAT\n");
     }
     else if(ret == l_False){
         printf("UNSATISFIABLE\n");
-        cerr << "UNSAT" << endl;
+        // cerr << "UNSAT" << endl;
+        fprintf(fout, "UNSAT\n");
     }
     else{
         printf("INDETERMINABLE\n");
-        cerr << "UNSAT" << endl;
+        // cerr << "UNSAT" << endl;
+        fprintf(fout, "IND\n");
     }
     // printf( ? "SATISFIABLE\n" : ret == l_False ? "UNSATISFIABLE\n" : "INDETERMINATE\n");
     

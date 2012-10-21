@@ -261,6 +261,7 @@ basicSolution, int* notinGamma, int out, double epsilon){
 
 /*This function decides the satisfiability of the PSAT instance. It first generates a SAT instance looking for a column that doesn't increase the sum of the probabilities of inconsistent columns (simplex). If there's no such a column, the PSAT instance is unsatisfiable. If the column founded substitutes for an inconsistent column (corresponding to a valuation inconsistent with Gamma), it will enter the basis and another iteration begins; Otherwise, it will be stored, and another SAT instance will be generated, looking for a column that could replace an inconsistent column. When there is such a column, it enters the basis; otherwise, we insert the column stored by the previous method. When there is no column inconsistent with Gamma whose probability is non-zero, a solution is returned.*/
 void PSAT::solve(){
+    FILE *fout = fopen("sat", "w");
     int i,j,/*lixo,*/ *notinGamma,outCol, count,*columnSimplex,*newColumn, sat, nig=0, it=0;
     //long temp;
     double *basicSolution, cost=0, epsilon;
@@ -328,7 +329,8 @@ void PSAT::solve(){
             else
               printf("UNSAT");
         
-            cerr << "UNSAT" << endl;
+            // cerr << "UNSAT" << endl;
+            fprintf(fout, "UNSAT\n");
             
             return ;
         }
@@ -390,5 +392,6 @@ void PSAT::solve(){
     else
       printf("SAT");
 
-    cerr << "SAT" << endl;
+    // cerr << "SAT" << endl;
+  fprintf(fout, "SAT\n");
 }

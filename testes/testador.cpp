@@ -89,7 +89,8 @@ int main(){
                 time_file.open("time.out", fstream::in);
 
                 sprintf(in, "instances/SATISn%d_%d.pcnf", i, j+1);
-                sprintf(cmd, "(time -p ./%s %s > /dev/null 2> sat) 2> time.out", solver_name, in);
+                sprintf(cmd, "(time -p ./%s %s > /dev/null) 2> time.out", solver_name, in);
+                // sprintf(cmd, "(time -p ./%s %s > /dev/null 2> sat) 2> time.out", solver_name, in);
                 // (/usr/bin/time -p ./PSATtoMaxSat instances/SATISn25_1.pcnf > /dev/null 2> sat) > time.out
                 
                 printf("%d %d ", i, j+1);
