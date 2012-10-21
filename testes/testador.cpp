@@ -116,11 +116,11 @@ int main(){
                 else{
                     if(check == 1 || check == 0){
                         time_sat += getTime(time_file);
-                        time_file.close();
                     }
                     else n_sat--;
                 }
-
+                time_file.close();
+                
                 if(check == 1) printf("sat\n");
                 else if(check == 0) printf("unsat\n");
                 else printf("error\n");
