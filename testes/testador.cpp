@@ -35,7 +35,7 @@ int sat(){
 }
 
 int main(){
-    int n_min, n_max, n_sat, n_unsat, n_solver, sat_only, k = 0, check;
+    int n_min, n_max, n_sat, n_unsat, n_solver, sat_only, k = 0, check, aux;
     int **sat_res;
     char *in = new char[50];
     char *cmd = new char[100];
@@ -84,6 +84,7 @@ int main(){
 
         for(int i = n_min; i <= n_max; i++){
             time_sat = time_unsat = 0;
+            aux = n_sat;
 
             for(int j = 0; j < n_sat; j++){
                 time_file.open("time.out", fstream::in);
@@ -103,31 +104,29 @@ int main(){
                             sat_res[i - n_min][j] = 1;
 
                             time_sat += getTime(time_file);
-                            time_file.close();
                         }
                         else if(sat_res[i - n_min][j] == 1){
                             time_sat += getTime(time_file);
-                            time_file.close();
                         }
-                        else n_sat--;
+                        else aux--;
                     }
-                    else n_sat--;       
+                    else aux--;       
                 }
                 else{
                     if(check == 1 || check == 0){
                         time_sat += getTime(time_file);
-                        time_file.close();
                     }
-                    else n_sat--;
+                    else aux--;
                 }
+                time_file.close();
 
                 if(check == 1) printf("sat\n");
                 else if(check == 0) printf("unsat\n");
                 else printf("error\n");
             }
-            if(n_sat != 0) time_sat /= n_sat;
+            if(aux != 0) time_sat /= aux;
 
-            fprintf(result_file, "%3d %3d %5d %8.3f\n", (2*i)+1, i, n_sat, time_sat);
+            fprintf(result_file, "%3d %3d %5d %8.3f\n", (2*i)+1, i, aux, time_sat);
 
             // for(int j = 0; j < n_unsat; j++){
             //     time_file.open("time.out", fstream::in);
