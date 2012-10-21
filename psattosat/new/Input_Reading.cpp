@@ -52,7 +52,6 @@ PSAT* Input_Reading::createPSAT(){
     fscanf(input,"%d", &nClause);	
     fscanf(input,"%d", &nProb);
     fscanf(input,"%d", &precision);
-    precision = 30;
 
     if(nProb>0){
         probs = (double *) malloc(nProb * sizeof(double));

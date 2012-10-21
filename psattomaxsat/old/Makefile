@@ -1,6 +1,6 @@
 CPP = /usr/bin/g++
 CC  = /usr/bin/gcc
-CFLAGS_Release = -Wall -O3 -Wno-unused-result
+CFLAGS_Release = -O3
 CPP_Release = $(CPP) $(CFLAGS_Release)
 CC_Release = $(CC) $(CFLAGS_Release)
 

@@ -31,3 +31,14 @@ psattosat/old/clauses.cnf
 psattosat/old/gamma.txt
 psattosat/old/saidazc.out
 psattosat/saidazc.out
+psatcolgen/old/PsatColGen_old
+psattosat/new/PSATtoSAT_broken
+psattosat/old/PSATtoSAT_old_broken
+testes/LA
+testes/LA2
+testes/PSATtoMaxSat_old
+testes/PSATtoSAT_old
+testes/PsatColGen_old
+testes/maxsat
+testes/test
+testes/tort
