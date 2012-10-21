@@ -345,7 +345,7 @@ void PSAT::solve(){
 			printf("\nUnsatisfiable PSAT instance. Total number of iterations:   %7d \n",it);
 			fclose(saida);
             // cerr << "UNSAT" << endl;
-            fprintf(sat, "UNSAT\n");
+            fprintf(fout, "UNSAT\n");
 			return ;
 		}
 		status = fopen("status.txt","w");
@@ -368,7 +368,7 @@ void PSAT::solve(){
 	fclose(saida);	
 
     // cerr << "SAT" << endl;
-    fprintf(sat, "SAT\n");
+    fprintf(fout, "SAT\n");
 /*	printf("Assigned probabilities: ");
 	for(i=0;i<=nProb;i++)printf("%lf ",probabilities[i]);
 	printf("\nbasic solution: ");
