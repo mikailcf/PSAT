@@ -1,0 +1,14 @@
+c pseudo-aleatorio INSATISFAZIVEL
+c
+p pcnf 6 5 5 2
+c Atomic Probabilities
+a 1 0.88 
+a 2 0.84 
+a 3 0.75 
+a 4 0.75 
+a 5 0.30 
+6 -3 -2 -1 0
+-6 3 0
+-6 2 0
+-6 1 0
+6 0

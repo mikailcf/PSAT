@@ -37,7 +37,7 @@ int sat(){
 }
 
 int main(){
-    int n_min, n_max, n_sat, n_unsat, n_solver, sat_only, k = 0, check, aux;
+    int n_min, n_max, n_sat, n_unsat, n_solver, sat_only, k = 0, check, aux_sat, aux_unsat;
     int **sat_res;
     char *in = new char[50];
     char *cmd = new char[100];
@@ -82,11 +82,12 @@ int main(){
         sprintf(out, "%s.result", solver_name);
 
         result_file = fopen(out, "w");
-        fprintf(result_file, "  n   k n_sat time_sat\n");
+        fprintf(result_file, "  n   k n_sat n_unsat time_sat\n");
 
         for(int i = n_min; i <= n_max; i++){
             time_sat = time_unsat = 0;
-            aux = n_sat;
+            aux_sat = n_sat;
+            aux_unsat = n_unsat;
 
             for(int j = 0; j < n_sat; j++){
                 time_file.open("time.out", fstream::in);
@@ -110,15 +111,15 @@ int main(){
                 //         else if(sat_res[i - n_min][j] == 1){
                 //             time_sat += getTime(time_file);
                 //         }
-                //         else aux--;
+                //         else aux_sat--;
                 //     }
-                //     else aux--;       
+                //     else aux_sat--;       
                 // }
                 // else{
                     if(check == 1){
                         time_sat += getTime(time_file);
                     }
-                    else aux--;
+                    else aux_sat--;
                 // }
                 time_file.close();
 
@@ -127,9 +128,32 @@ int main(){
                 else printf("error\n");
                 system("rm sat");
             }
-            if(aux != 0) time_sat /= aux;
+            for(int j = 0; j < n_unsat; j++){
+                time_file.open("time.out", fstream::in);
 
-            fprintf(result_file, "%3d %3d %5d %8.3f\n", (2*i)+1, i, aux, time_sat);
+                sprintf(in, "instances/UNSATn%d_%d.pcnf", i, j+1);
+                sprintf(cmd, "(time -p ./%s %s > /dev/null) 2> time.out", solver_name, in);
+                
+                printf("%d %d ", i, j+1);
+                system(cmd);
+
+                check = sat();
+                if(check == 0){
+                    time_unsat += getTime(time_file);
+                }
+                else aux_unsat--;
+
+                time_file.close();
+
+                if(check == 1) printf("sat\n");
+                else if(check == 0) printf("unsat\n");
+                else printf("error\n");
+                system("rm sat");
+            }
+            if(aux_sat != 0) time_sat /= (float) aux_sat;
+            if(aux_unsat != 0) time_unsat /= (float) aux_unsat;
+
+            fprintf(result_file, "%3d %3d %5d %7d %8.3f\n", (2*i)+1, i, aux_sat, aux_unsat, time_sat);
 
             // for(int j = 0; j < n_unsat; j++){
             //     time_file.open("time.out", fstream::in);
