@@ -27,6 +27,8 @@ int sat(){
     char c;
     FILE *sat = fopen("sat", "r");
 
+    if(sat == NULL) return -1;
+
     c = getc(sat);
     fclose(sat);
     if(c == 'S') return 1;
@@ -98,31 +100,32 @@ int main(){
                 system(cmd);
 
                 check = sat();
-                if(sat_only){
-                    if(check == 1){
-                        if(k == 0){
-                            sat_res[i - n_min][j] = 1;
+                // if(sat_only){
+                //     if(check == 1){
+                //         if(k == 0){
+                //             sat_res[i - n_min][j] = 1;
 
-                            time_sat += getTime(time_file);
-                        }
-                        else if(sat_res[i - n_min][j] == 1){
-                            time_sat += getTime(time_file);
-                        }
-                        else aux--;
-                    }
-                    else aux--;       
-                }
-                else{
-                    if(check == 1 || check == 0){
+                //             time_sat += getTime(time_file);
+                //         }
+                //         else if(sat_res[i - n_min][j] == 1){
+                //             time_sat += getTime(time_file);
+                //         }
+                //         else aux--;
+                //     }
+                //     else aux--;       
+                // }
+                // else{
+                    if(check == 1){
                         time_sat += getTime(time_file);
                     }
                     else aux--;
-                }
+                // }
                 time_file.close();
 
                 if(check == 1) printf("sat\n");
                 else if(check == 0) printf("unsat\n");
                 else printf("error\n");
+                system("rm sat");
             }
             if(aux != 0) time_sat /= aux;
 
